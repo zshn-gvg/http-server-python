@@ -26,14 +26,12 @@ def main():
     server_socket.listen(10)
     print("Server listening on localhost:4421")
 
-
-
-    req_data = connection.recv(1024).decode()
-    print(f"Received data:\n{req_data}")
-
     while True:
         connection, address = server_socket.accept()
         print(f"Accepted connection from {address}")
+
+        req_data = connection.recv(1024).decode()
+        print(f"Received data:\n{req_data}")
 
         thread = threading.Thread(target=handle_requests, args=(connection))
         thread.start()
