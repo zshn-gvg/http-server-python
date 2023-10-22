@@ -1,6 +1,5 @@
 # Uncomment this to pass the first stage
 import socket
-import re
 
 def main():
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
@@ -9,16 +8,25 @@ def main():
     connection, address = server_socket.accept()
     print(f"Accepted connection from {address}")
 
-    data = connection.recv(1024).decode()
-    print(f"Received data:\n{data}")
+    req_data = connection.recv(1024).decode()
+    print(f"Received data:\n{req_data}")
 
-    path = data.split()[1]
-    match = re.match(r"/echo/(\w+)", path)
-    if match:
-        rnd_string = match.group(1)
-        response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(rnd_string)}\r\n\r\n{rnd_string}"
-    else:
-        response = "HTTP/1.1 404 Not Found\r\n\r\n"
+    data = req_data.split()
+
+    if len(data) >0 and data[0] == "GET":
+        path = data[1]
+        if len(data) > 1 and data[0] == "GET":
+            path = data[1]
+            if path == "/":
+                response = "HTTP/1.1 200 OK\r\n\r\n"
+            path = data[1]
+            if path == "/":
+                response = "HTTP/1.1 200 OK\r\n\r\n"
+            elif path.startswith("/echo/"):
+                rndm_string = path[6:]
+                response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(rndm_string)}\r\n\r\n{rndm_string}"
+            else:
+                response = "HTTP/1.1 404 Not Found\r\n\r\n"
     
     connection.sendall(response.encode())
     connection.close()
