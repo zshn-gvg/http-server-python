@@ -19,11 +19,10 @@ def main():
             path = data[1]
             if path == "/":
                 response = "HTTP/1.1 200 OK\r\n\r\n"
-            path = data[1]
-            if path == "/":
-                response = "HTTP/1.1 200 OK\r\n\r\n"
             elif path.startswith("/echo/"):
                 rndm_string = path[6:]
+                response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(rndm_string)}\r\n\r\n{rndm_string}"
+            elif path.startswith("/user-agent") and data[5] == "User-Agent:":
                 response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(rndm_string)}\r\n\r\n{rndm_string}"
             else:
                 response = "HTTP/1.1 404 Not Found\r\n\r\n"
