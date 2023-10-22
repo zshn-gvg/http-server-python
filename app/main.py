@@ -33,7 +33,7 @@ def main():
         req_data = connection.recv(1024).decode()
         print(f"Received data:\n{req_data}")
 
-        thread = threading.Thread(target=handle_requests, args=(connection))
+        thread = threading.Thread(target=handle_requests, args=(connection,))
         thread.start()
 
 
