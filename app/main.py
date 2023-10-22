@@ -13,7 +13,7 @@ def main():
     print(f"Received data:\n{data}")
 
     path = data.split()[1]
-    match = re. match = re.match(r"/echo/(\w+)", path)
+    match = re.match(r"/echo/(\w+)", path)
     if match:
         rnd_string = match.group(1)
         response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(rnd_string)}\r\n\r\n{rnd_string}"
