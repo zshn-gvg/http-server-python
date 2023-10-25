@@ -20,7 +20,7 @@ def extract_user_agent(request):
 
 def handle_user_agent(req_data):
     user_agent = extract_user_agent(req_data)
-    response_head = f"""{RESPONSE_200}Content-Type: text/plain\r\nContent-Length: {len(user_agent)}\r\n\r\n"""
+    response_head = f"""HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(user_agent)}\r\n\r\n"""
     response = response_head + user_agent
     return response
 
