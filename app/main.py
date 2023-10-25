@@ -7,7 +7,7 @@ def handle_requests(connection):
         if (
             len(data) > 2 
             and data[0] == "GET" 
-            and req_data[1] == "/user-agent"
+            and data[1] == "/user-agent"
         ):
             agent_value = None
             for header in req_data[1:]:
