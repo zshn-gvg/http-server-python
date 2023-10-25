@@ -46,7 +46,7 @@ def main():
 
 
 def handle_requests(connection):
-    req_data = connection.recv(1024).decode()
+    req_data = connection.recv(1024).decode("utf-8")
     path = extract_path(req_data)
     if path == "/":
         connection.sendall(RESPONSE_200.encode())
