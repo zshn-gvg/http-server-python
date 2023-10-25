@@ -10,7 +10,7 @@ def handle_requests(connection):
             and req_data[1] == "/user-agent"
         ):
             agent_value = None
-            for header in data[1:]:
+            for header in req_data[1:]:
                 if header.startsWith("User-Agent: "):
                     agent_value = header[len("User-Agent: ") :]
                     break
@@ -26,7 +26,7 @@ def handle_requests(connection):
                 rndm_string = path[6:]
                 response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(rndm_string)}\r\n\r\n{rndm_string}"
             else:
-                response = "HTTP/1.1 404 Not Found\r\n\r\n"
+                response = "HTTP/1.1 404 Not Found\r\n\r\nNot Found"
         connection.sendall(response.encode())
         connection.close()
 
