@@ -27,6 +27,18 @@ def handle_echo(path):
     response = response_head + to_echo_string
     return response
 
+def main():
+    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
+    # server_socket.listen(5)
+    print("Server listening on localhost:4421")
+    while True:
+        connection, address = server_socket.accept()
+        print(f"Accepted connection from {address}")
+        req_data = connection.recv(1024).decode()
+        print(f"Received data:\n{req_data}")
+        thread = threading.Thread(target=handle_requests, args=(connection,))
+        thread.start()
+
 def handle_requests(connection):
         req_data = connection.recv(1024).decode()
         path = extract_path(req_data)
@@ -44,18 +56,6 @@ def handle_requests(connection):
         else:
              connection.sendall(RESPONSE_404.encode())
         connection.close()
-
-def main():
-    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
-    # server_socket.listen(5)
-    print("Server listening on localhost:4421")
-    while True:
-        connection, address = server_socket.accept()
-        print(f"Accepted connection from {address}")
-        req_data = connection.recv(1024).decode()
-        print(f"Received data:\n{req_data}")
-        thread = threading.Thread(target=handle_requests, args=(connection,))
-        thread.start()
 
 if __name__ == "__main__":
     main()
