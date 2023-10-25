@@ -11,7 +11,7 @@ def handle_requests(connection):
         ):
             agent_value = None
             for header in req_data[1:]:
-                if header.startsWith("User-Agent: "):
+                if header.startswith("User-Agent: "):
                     agent_value = header[len("User-Agent: ") :]
                     break
             if agent_value:
