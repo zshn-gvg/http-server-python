@@ -26,7 +26,7 @@ def handle_user_agent(req_data):
 
 
 def handle_echo(path):
-    to_echo_string = path[len("/echo/") :]
+    to_echo_string = path[len("/echo/"):]
     response_head = f"""HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(to_echo_string)}\r\n\r\n"""
     response = response_head + to_echo_string
     return response
