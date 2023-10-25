@@ -53,7 +53,7 @@ def handle_requests(connection):
     elif path.startswith("/files"):
         response = RESPONSE_200 + "todo"
         connection.sendall(response.encode())
-    elif path.startswith("user-agent"):
+    elif path.startswith("/user-agent"):
         response = handle_user_agent(req_data)
         connection.sendall(response.encode())
     elif path.startswith("/echo/"):
