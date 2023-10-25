@@ -7,7 +7,7 @@ RESPONSE_404 = "HTTP/1.1 404 Not Found\r\n\r\n"
 
 def extract_path(request):
     request_by_line = request.split("\r\n")
-    HTTPmethod, path, _ = request_by_line[0].split()
+    HTTPmethod, path, _ = request_by_line[0].split( )
     return path
 
 
