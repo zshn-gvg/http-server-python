@@ -57,7 +57,7 @@ def handle_requests(connection):
         response = handle_user_agent(req_data)
         connection.sendall(response.encode())
     elif path.startswith("/echo/"):
-        response = handle_echo(req_data)
+        response = handle_echo(path)
         connection.sendall(response.encode())
     else:
         connection.sendall(RESPONSE_404.encode())
