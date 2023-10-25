@@ -1,5 +1,7 @@
 import socket
 import threading
+import os
+import sys
 
 RESPONSE_200 = "HTTP/1.1 200 OK\r\n\r\n"
 RESPONSE_404 = "HTTP/1.1 404 Not Found\r\n\r\n"
@@ -30,7 +32,18 @@ def handle_echo(path):
     response_head = f"""HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(to_echo_string)}\r\n\r\n"""
     response = response_head + to_echo_string
     return response
-
+def handle_files(path):
+        filename = path.split("/")[2]
+        dir = sys.argv[-1]
+        filePath = dir + filename
+        if os.path.exists(filePath):
+            content = open(filePath).read()
+            response_head = f"""HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(content)}\r\n\r\n"""
+            response = response_head + content
+            return response
+        else:
+            response = RESPONSE_404
+            return response
 
 def main():
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
@@ -51,7 +64,7 @@ def handle_requests(connection):
     if path == "/":
         connection.sendall(RESPONSE_200.encode())
     elif path.startswith("/files"):
-        response = RESPONSE_200 + "todo"
+        response = handle_files(path)
         connection.sendall(response.encode())
     elif path.startswith("/user-agent"):
         response = handle_user_agent(req_data)
